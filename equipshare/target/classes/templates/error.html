@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>400 Bad Request</title>
+    <style>
+    	body {
+		    font-family: Arial, sans-serif;
+		    background-color: #f8f9fa;
+		    margin: 0;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    height: 100vh;
+		}
+		
+		.text-center {
+		    text-align: center;
+		}
+		
+		.display-1 {
+		    font-size: 72px;
+		    font-weight: bold;
+		}
+		
+		.fs-3 {
+		    font-size: 1.5rem;
+		}
+		
+		.text-danger {
+		    color: red;
+		}
+		
+		.btn-primary {
+		    background-color: blue;
+		    color: white;
+		    padding: 10px 20px;
+		    text-decoration: none;
+		    border: none;
+		    border-radius: 5px;
+		}
+		
+		.btn-primary:hover {
+		    background-color: darkblue;
+		}
+    </style>
+</head>
+
+<body>
+<div>
+    <div class="text-center">
+        <h1 class="display-1 fw-bold">400</h1>
+        <p class="fs-3"> <span class="text-danger">Oops!</span>&nbsp;Something went wrong</p>
+        <a href="/" class="btn btn-primary">Go Home</a>
+    </div>
+</div>
+</body>
+
+</html>

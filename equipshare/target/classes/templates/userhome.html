@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>EquipShare - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .logout {
+        	color: white;
+        	text-decoration: none;
+            position: fixed;
+            right: 32px;
+            top: 17px;
+            font-size: 15px;
+        }
+        
+        .logout:hover {
+        	font-weight: Bold;
+        	text-decoration: underline;
+        }
+
+        button {
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 8px;
+        }
+
+        button:hover {
+            background-color: #444444;
+        }
+        
+        p {
+        	
+        	font-size: 15px;
+        }
+        
+        .text-bold {
+        	font-weight: Bold;
+        }
+
+        p, h3 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        p:nth-of-type(2) { 
+            margin: 20px 50px; 
+        }
+
+        .div-container {
+            width: 80%; 
+        }
+
+        .hardware {
+            width: 50%; 
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background: white;
+            margin: 45px auto; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+        }
+
+        ul {
+            list-style-type: none; 
+            padding: 0;
+            margin: 0;
+            width: 100%; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        li {
+            margin-bottom: 10px; 
+        }
+
+        li button {
+            width: 200px; 
+            text-align: center; 
+            margin: 5px;
+        }
+        
+        .faq {
+		    background: white;
+		    padding: 20px;
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		    border-radius: 8px;
+		    margin: 25px auto;
+		    width: 70%;
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		}
+
+		.faq h2 {
+		    margin-top: 10px;
+		}
+		
+		.faq ul {
+		    width: 100%;
+		}
+		
+		.faq li {
+		    text-align: left;
+		    margin-bottom: 15px;
+		}
+		
+		.faq li p {
+		    margin: 5px 0;
+		}
+		
+		.request-history {
+		    background: white;
+		    padding: 20px;
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		    border-radius: 8px;
+		    margin: 25px auto;
+		    width: 70%;
+		    display: flex;
+		    flex-direction: column;
+		    align-items: center;
+		}
+		
+		.request-history h2 {
+		    margin-bottom: 15px;
+		}
+		
+		.request-history-cont table {
+		    width: 100%;
+		    border-collapse: collapse;
+		}
+		
+		.request-history-cont th, .request-history-cont td {
+		    border: 1px solid #ccc;
+		    padding: 8px;
+		    text-align: left;
+		}
+		
+		.request-history-cont th {
+		    background-color: #e1e1e1;
+		}
+	
+		.request-history-cont tr:nth-child(even) {
+		    background-color: #f9f9f9;
+		}
+		
+		.welcome {
+			margin-top: 100px
+		}
+
+    </style>
+</head>
+<body>
+    <h1>EQUIPSHARE</h1>
+    <a href="/logout" class="logout">Logout</a>
+    <p class="welcome">Welcome back <span th:text="${username}">User</span>!</p>
+    <div class="div-container">
+        <div>
+            <h3 class="text-bold"> One stop for all IT Hardwares </h3>
+            <p> We have certain hardware available for brief loans, and these borrowed items can be picked up and returned at any of our stores. Safe and hygienic, this self-service process lets you decide what you need and when you need it.</p>
+            <p> To request a loan, select an item from the list below.</p>
+        </div>
+        <div class="hardware">
+            <h3>Available Hardwares</h3>
+            <ul>
+                <li th:each="hardware : ${hardwareList}">
+                    <button th:text="${hardware.name}" th:onclick="'window.location.href=\'/hardware/detail/' + ${hardware.id} + '\''">Sample Hardware</button>
+                </li>
+            </ul>
+        </div>
+        <div class="request-history">
+		    <h3>Your Past Requests</h3>
+			<div th:if="${hardwareRequestList.isEmpty()}">
+			    <p>You have no past requests.</p>
+			</div>
+			<div class="request-history-cont" th:unless="${hardwareRequestList.isEmpty()}">
+			    <table>
+			        <thead>
+			            <tr>
+			                <th>Hardware Name</th>
+			                <th>Date Requested</th>
+			                <th>Store</th>
+			                <th>Status</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr th:each="request : ${hardwareRequestList}">
+			                <td th:text="${request.hardware.name}"></td>
+			                <td th:text="${#temporals.format(request.requestDate, 'dd-MM-yyyy')}"></td>
+			                <td th:text="${request.store}"></td>
+			                <td th:text="${request.status}"></td>
+			            </tr>
+			        </tbody>
+			    </table>
+			</div>
+		</div>
+		<div class="faq">
+		    <h3>Frequently Asked Questions</h3>
+		    <ul>
+		        <li>
+		            <p class="text-bold">How can I borrow laptops and cameras in a safe and hygienic way?</p>
+		            <p>You can borrow them using smart lockers in stores for contactless pickup and return.</p>
+		        </li>
+		        <li>
+		            <p class="text-bold">What are the options for picking up and returning borrowed items without physical contact?</p>
+		            <p>You can use smart lockers at the store to pick up and return items without any physical contact.</p>
+		        </li>
+		        <li>
+		            <p class="text-bold">What do I need to do to return a borrowed item using smart lockers or vending machines?</p>
+		            <p>Simply request to return the item at one of the store's smart lockers.</p>
+		        </li>
+		        <li>
+		            <p class="text-bold">Are there any specific requirements for the condition of returned items?</p>
+		            <p>All borrowed items must be returned on time and in the same condition as when borrowed.</p>
+		        </li>
+		        <li>
+		            <p class="text-bold">What happens if I return a borrowed item late or in a damaged condition?</p>
+		            <p>You will be charged a fine if items are returned late, damaged, or with missing components like a charger.</p>
+		        </li>
+		        <li>
+		            <p class="text-bold">Is it acceptable to return a replacement item instead of the original one I borrowed?</p>
+		            <p>No, the exact items borrowed must be returned; replacements will not be accepted.</p>
+		        </li>
+		        <li>
+		            <p class="text-bold">What are the penalties for not returning borrowed items or losing them?</p>
+		            <p>You will be charged a replacement fee for items that are lost or not returned.</p>
+		        </li>
+		        <li>
+		            <p class="text-bold">How is the amount of a late fine or replacement fee determined?</p>
+		            <p>The fee amount is based on the value of the borrowed item(s).</p>
+		        </li>
+		    </ul>
+		</div>
+    </div>
+</body>
+</html>
